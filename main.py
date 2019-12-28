@@ -1,4 +1,5 @@
 import pygame
+import random
 
 #initialize pygame
 pygame.init()
@@ -8,6 +9,7 @@ screen = pygame.display.set_mode((600, 600))
 
 #title of game
 pygame.display.set_caption("Space Invaders")
+
 
 #game icon
 icon = pygame.image.load('rocket.png')
@@ -20,6 +22,10 @@ playerX_change = 0
 
 #enemy
 enemyImage = pygame.image.load('ufo.png')
+enemyX = random.randint(200, 500)
+enemyY = random.randint(50, 150)
+enemyX_change = 0.25
+enemyY_change = 20
 
 def enemy(x, y):
     screen.blit(enemyImage, (x, y))
@@ -50,13 +56,23 @@ while running:
                 playerX_change = 0
     
     screen.fill((0, 0, 0))
-    playerX += playerX_change
 
-    # border managing
+    playerX += playerX_change
+    # border managing for player
     if playerX <= 0:
         playerX = 0
     if playerX >= 570:
         playerX = 570
+
+    enemyX += enemyX_change
+    # border managing for enemy
+    if enemyX <= 0:
+        enemyX_change = 0.25
+        enemyY += enemyY_change
+    if enemyX >= 570:
+        enemyX_change = -0.25
+        enemyY += enemyY_change
+
     player(playerX, playerY)
-    enemy(300, 200)
+    enemy(enemyX, enemyY)
     pygame.display.update()
